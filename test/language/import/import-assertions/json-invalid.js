@@ -11,13 +11,15 @@ info: |
 
   1. Let json be ? Call(%JSON.parse%, undefined, « source »).
   2. Return CreateDefaultExportSyntheticModule(json).
-flags: [module]
+flags: [module,async]
 features: [import-assertions, json-modules]
-negative:
-  phase: parse
-  type: SyntaxError
 ---*/
 
-$DONOTEVALUATE();
+globalThis.didEvaluate = false;
 
-import value from './json-invalid_FIXTURE.json' assert { type: 'json' };
+assert
+  .throwsAsync(import("./json-invalid-track-evaluation_FIXTURE.js"))
+  .then(() => {
+    assert(!globalThis.didEvaluate, "It should error before evaluation");
+  })
+  .then($DONE, $DONE);

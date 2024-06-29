@@ -18,6 +18,11 @@ negative:
   type: SyntaxError
 ---*/
 
-$DONOTEVALUATE();
+globalThis.didEvaluate = false;
 
-import value from './json-invalid_FIXTURE.json' with { type: 'json' };
+assert
+  .throwsAsync(import("./json-invalid-track-evaluation_FIXTURE.js"))
+  .then(() => {
+    assert(!globalThis.didEvaluate, "It should error before evaluation");
+  })
+  .then($DONE, $DONE);

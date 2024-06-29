@@ -16,7 +16,7 @@ info: |
 negative:
   phase: resolution
   type: SyntaxError
-features: [source-phase-imports]
+features: [source-phase-imports, source-phase-imports-module-source]
 flags: [module]
 ---*/
 
@@ -28,4 +28,4 @@ import
 
   source
 
-  y from '<do not resolve>';
+  y from '<module source>';
